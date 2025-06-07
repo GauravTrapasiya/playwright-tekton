@@ -15,5 +15,5 @@ spec:
       workingDir: /workspace/output
       script: |
         npm install
-        npx playwright install chromium
-        npx playwright test --project=chromium
+        npx playwright install
+        npx playwright test
