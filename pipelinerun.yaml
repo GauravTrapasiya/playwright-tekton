@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: playwright-run
+spec:
+  pipelineRef:
+    name: playwright-pipeline
+  workspaces:
+    - name: output
+      emptyDir: {}

@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: playwright-pipeline
+spec:
+  workspaces:
+    - name: output
+  tasks:
+    - name: run-playwright-tests
+      taskRef:
+        name: playwright-test
+      workspaces:
+        - name: output
+          workspace: output
