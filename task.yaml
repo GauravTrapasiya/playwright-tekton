@@ -9,7 +9,7 @@ spec:
     - name: clone-repo
       image: alpine/git
       script: |
-        git clone https://github.ibm.com/Gaurav-Trapasiya/playwright-tekton.git  /workspace/output
+        git clone https://github.com/GauravTrapasiya/playwright-tekton.git /workspace/output
     - name: run-playwright
       image: mcr.microsoft.com/playwright:v1.42.1-jammy
       workingDir: /workspace/output
