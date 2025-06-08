@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-trigger-playwright
+spec:
+  schedule: "0 * * * 1-5"  # Every hour on weekdays
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: trigger
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  cat <<EOF | kubectl apply -f -
+                  apiVersion: tekton.dev/v1
+                  kind: PipelineRun
+                  metadata:
+                    generateName: playwright-run-
+                  spec:
+                    pipelineRef:
+                      name: playwright-pipeline
+                    workspaces:
+                      - name: output
+                        volumeClaimTemplate:
+                          metadata:
+                            name: playwright-pvc
+                          spec:
+                            accessModes: ["ReadWriteOnce"]
+                            resources:
+                              requests:
+                                storage: 1Gi
+                  EOF
+          restartPolicy: OnFailure
+          serviceAccountName: pipeline
